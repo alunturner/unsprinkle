@@ -2,18 +2,30 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 const PhotoGridItem = ({ id, src, alt, tags }) => {
-  return (
-    <article>
-      <Anchor href={`/photos/${id}`}>
-        <Image src={src} />
-      </Anchor>
-      <Tags>
-        {tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
-      </Tags>
-    </article>
-  );
+    return (
+        <article>
+            <Anchor href={`/photos/${id}`}>
+                <picture>
+                    <source type="image/avif" srcSet={`
+                        ${src} 1x,
+                        ${src.replace(".avif", "@2x.jpg")} 2x,
+                        ${src.replace(".avif", "@3x.jpg")} 3x,
+                        `} />
+                    <source type="image/jpeg" srcSet={`
+                        ${src} 1x,
+                        ${src.replace(".jpg", "@2x.jpg")} 2x,
+                        ${src.replace(".jpg", "@3x.jpg")} 3x,
+                        `} />
+                    <Image src={src} />
+                </picture>
+            </Anchor>
+            <Tags>
+                {tags.map((tag) => (
+                    <Tag key={tag}>{tag}</Tag>
+                ))}
+            </Tags>
+        </article>
+    );
 };
 
 const Anchor = styled.a`
